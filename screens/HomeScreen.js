@@ -2,10 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TaskCard from '../components/TaskCard'; 
-// Importing specific Lucide icons for the header
 import { Bell, Plus } from 'lucide-react-native'; 
 
-// --- Constants ---
 const DarkColors = {
   background: '#121212', 
   card: '#1F1F1F',      
@@ -16,22 +14,17 @@ const DarkColors = {
   tabActive: '#333333',    
 };
 
-// --- Utility Function to get Current Date in DD-MM-YYYY format ---
 const getCurrentDate = () => {
   const date = new Date();
-  // Get year, month (0-indexed, so add 1), and day
   const year = date.getFullYear();
   const month = date.getMonth() + 1; 
   const day = date.getDate();
   
-  // Pad month/day with leading zero if needed (e.g., 3 -> 03)
   const pad = (num) => (num < 10 ? '0' + num : num);
   
-  // Format as DD-MM-YYYY (or similar based on mock design)
   return `${pad(day)}-${pad(month)}-${year}`;
 };
 
-// --- Mock Data (Unchanged) ---
 const tasks = [
     { id: 1, tag: 'Meeting', title: 'Onboarding Call', details: 'Meeting with client scheduled for 2:30 PM, review project updates and next steps.', time: '07:00 AM - 8:30 AM', remaining: '23m', location: 'Anywhere' },
     { id: 2, tag: 'Design', title: 'About the Design', details: 'Team sync-up to finalize UI/UX flows and review the latest mockups.', time: '09:00 AM - 10:30 AM', remaining: '1hr 3m', location: 'Anywhere' },
@@ -78,7 +71,6 @@ const HomeScreen = ({ user = { name: 'Reo Aki' }, navigation }) => {
           </View>
         </View>
 
-        {/* Today's Report Card */}
         <View style={styles.reportCard}>
           
           <View style={styles.reportHeader}>
@@ -86,7 +78,6 @@ const HomeScreen = ({ user = { name: 'Reo Aki' }, navigation }) => {
           </View>
 
           <View style={styles.reportBody}>
-            {/* --- Dynamic Date Display --- */}
             <Text style={styles.reportDateLarge}>{currentDate}</Text>
             
             <View style={styles.statsContainer}>
@@ -104,13 +95,12 @@ const HomeScreen = ({ user = { name: 'Reo Aki' }, navigation }) => {
           <View style={styles.reportFooter}>
               <Text style={styles.quote}>
                 "Focus on being productive instead of busy." 
-                <Text style={styles.quoteAuthor}> - Tim Ferriss</Text>
+                <Text style={styles.quoteAuthor}>Tim Ferriss</Text>
               </Text>
           </View>
           
         </View>
 
-        {/* Navigation Tabs */}
         <View style={styles.tabsContainer}>
           {['All', 'Upcoming', 'Project', 'Complete'].map((tab) => (
             <TouchableOpacity 
@@ -123,7 +113,6 @@ const HomeScreen = ({ user = { name: 'Reo Aki' }, navigation }) => {
           ))}
         </View>
 
-        {/* Task List */}
         <View>
           {tasks.map(task => (
             <TaskCard key={task.id} {...task} />
@@ -135,7 +124,6 @@ const HomeScreen = ({ user = { name: 'Reo Aki' }, navigation }) => {
   );
 };
 
-// --- Styles ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -188,8 +176,6 @@ const styles = StyleSheet.create({
   bellIcon: {
       marginRight: 15,
   },
-  // REMOVED old 'addButton' style
-  // NEW: Polished Add Button Style (Matches PlannerScreen.js)
   addButtonPolished: {
     width: 50,
     height: 50,

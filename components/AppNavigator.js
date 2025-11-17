@@ -5,7 +5,6 @@ import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
 
-// Screens
 import HomeScreen from '../screens/HomeScreen';
 import PlannerScreen from '../screens/PlannerScreen';
 import MissedScreen from '../screens/MissedScreen';
@@ -22,7 +21,6 @@ const Colors = {
   inputBackground: '#F7F7F7'
 };
 
-// Custom component for pill-shaped tab button
 const CustomPillTabButton = ({ children, focused, onPress, ...props }) => {
   return (
     <TouchableOpacity
@@ -30,7 +28,7 @@ const CustomPillTabButton = ({ children, focused, onPress, ...props }) => {
       onPress={onPress}
       style={[
         styles.tabButton,
-        focused && { borderRadius: 30, paddingHorizontal: 18, backgroundColor: '#FF8C0040' } // slight background for active
+        focused && { borderRadius: 30, paddingHorizontal: 18, backgroundColor: '#FF8C0040' } 
       ]}
     >
       {focused ? (
@@ -47,7 +45,6 @@ const CustomPillTabButton = ({ children, focused, onPress, ...props }) => {
   );
 };
 
-// Gradient icon wrapper
 const GradientIcon = ({ IconComponent, size = 26 }) => (
   <MaskedView
     maskElement={<IconComponent color="black" size={size} />}

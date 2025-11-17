@@ -1,22 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-// Importing specific Lucide icons
 import { Globe, GraduationCap, Clock } from 'lucide-react-native'; 
 
-// --- Constants ---
 const DarkColors = {
   card: '#1F1F1F',
   textPrimary: '#FFFFFF',
   textSecondary: '#A9A9A9',
   accentOrange: '#FF9500',
-  // Specific colors matching the tags in your design
   tagMeeting: '#FFC0CB', 
   tagDesign: '#ADD8E6',   
   tagClass: '#90EE90',    
   remainingTime: '#FF4500', 
 };
 
-// --- Helper function to get the tag style ---
 const getTagStyle = (tag) => {
   switch (tag) {
     case 'Meeting':
@@ -39,7 +35,6 @@ const TaskCard = ({ tag, title, details, time, remaining, location }) => {
 
   return (
     <View style={styles.card}>
-      {/* Top Row: Tag and Location */}
       <View style={styles.topRow}>
         <View style={[styles.tagBadge, { backgroundColor: tagStyle.backgroundColor }]}>
           <Text style={[styles.tagText, { color: tagStyle.color }]}>
@@ -54,14 +49,11 @@ const TaskCard = ({ tag, title, details, time, remaining, location }) => {
         </View>
       </View>
 
-      {/* Main Details */}
       <Text style={styles.titleText}>{title}</Text>
       <Text style={styles.detailsText}>{details}</Text>
 
-      {/* Bottom Row: Time and Remaining Timer */}
       <View style={styles.timeRow}>
         <View style={styles.timeDetail}>
-            {/* Decreasing Clock icon size slightly to match new font size */}
             <Clock size={14} color={DarkColors.textSecondary} style={styles.timeIcon} /> 
             <Text style={styles.timeText}>{time}</Text>
         </View>
@@ -71,7 +63,6 @@ const TaskCard = ({ tag, title, details, time, remaining, location }) => {
   );
 };
 
-// --- Styles ---
 const styles = StyleSheet.create({
   card: {
     backgroundColor: DarkColors.card,
@@ -136,13 +127,11 @@ const styles = StyleSheet.create({
   },
   timeText: {
     color: DarkColors.textSecondary,
-    // --- ADJUSTED FONT SIZE ---
     fontSize: 12, 
   },
   remainingText: {
     color: DarkColors.remainingTime,
     fontWeight: 'bold',
-    // --- ADJUSTED FONT SIZE ---
     fontSize: 12, 
   },
 });

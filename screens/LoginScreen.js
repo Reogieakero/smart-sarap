@@ -5,8 +5,9 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSQLiteContext } from 'expo-sqlite'; // <--- NEW IMPORT
-import { getUser } from '../services/Database'; 
+import { useSQLiteContext } from 'expo-sqlite';
+import { getUser } from '../services/Database';
+import { Ionicons } from '@expo/vector-icons'; // <--- NEW IMPORT
 
 const Colors = {
   background: '#FFFFFF',
@@ -20,7 +21,8 @@ const Colors = {
 const LoginScreen = ({ onLoginSuccess, onSignUpPress }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const db = useSQLiteContext(); // <--- CORRECT HOOK CALL
+  const [showPassword, setShowPassword] = useState(false); // <--- NEW STATE
+  const db = useSQLiteContext();
 
   const logoScale = useRef(new Animated.Value(0.8)).current;
 
@@ -32,18 +34,18 @@ const LoginScreen = ({ onLoginSuccess, onSignUpPress }) => {
     }).start();
   }, []);
 
-  const handleLogin = async () => { 
+  const handleLogin = async () => {
     try {
       if (!email || !password) {
          Alert.alert('Login Failed', 'Please enter email and password.');
          return;
       }
-      
-      const users = await getUser(db, email, password); 
+
+      const users = await getUser(db, email, password);
 
       if (users.length > 0) {
         Alert.alert('Success', 'Login successful!');
-        onLoginSuccess(users[0]); 
+        onLoginSuccess(users[0]);
       } else {
         Alert.alert('Login Failed', 'Invalid email or password.');
       }
@@ -83,14 +85,27 @@ const LoginScreen = ({ onLoginSuccess, onSignUpPress }) => {
             autoCapitalize="none"
           />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor={Colors.textSecondary}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+          {/* Password Input with Toggle */}
+          <View style={styles.passwordInputContainer}>
+            <TextInput
+              style={styles.inputPassword} // Use a slightly modified style for the input inside the container
+              placeholder="Password"
+              placeholderTextColor={Colors.textSecondary}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword} // Toggle based on state
+            />
+            <TouchableOpacity
+              style={styles.passwordToggle}
+              onPress={() => setShowPassword(!showPassword)}
+            >
+              <Ionicons
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={24}
+                color={Colors.textSecondary}
+              />
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity onPress={handleLogin} style={styles.buttonWrapper}>
             <LinearGradient
@@ -126,7 +141,14 @@ const styles = StyleSheet.create({
   logoImage: { width: 140, height: 140, borderRadius: 70 },
   title: { fontSize: 32, fontWeight: '700', color: Colors.textPrimary, letterSpacing: 1, marginBottom: 6, textAlign: 'center' },
   subtitle: { fontSize: 16, color: Colors.textSecondary, marginBottom: 32, textAlign: 'center' },
+  // Original Input Style for Email
   input: { width: '100%', backgroundColor: Colors.inputBackground, color: Colors.textPrimary, borderRadius: 14, paddingHorizontal: 18, paddingVertical: 16, fontSize: 16, marginBottom: 16, shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 }, shadowRadius: 4, elevation: 2 },
+  // Container for Password Input and Toggle
+  passwordInputContainer: { flexDirection: 'row', alignItems: 'center', width: '100%', backgroundColor: Colors.inputBackground, borderRadius: 14, marginBottom: 16, shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 }, shadowRadius: 4, elevation: 2 },
+  // Input style modified for flex layout in the container
+  inputPassword: { flex: 1, color: Colors.textPrimary, paddingHorizontal: 18, paddingVertical: 16, fontSize: 16, },
+  // Toggle Button
+  passwordToggle: { paddingRight: 18, paddingLeft: 10, paddingVertical: 16 },
   forgotContainer: { width: '100%', alignItems: 'flex-end', marginBottom: 24 },
   forgotText: { color: Colors.redAccent, fontWeight: '500', fontSize: 14 },
   buttonWrapper: { width: '100%', borderRadius: 14, overflow: 'hidden', marginBottom: 20 },
